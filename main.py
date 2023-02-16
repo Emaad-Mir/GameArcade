@@ -6,12 +6,14 @@ from flask import render_template  # import render_template from "public" flask 
 # import "packages" from "this" project
 from __init__ import app  # Definitions initialization
 from model.jokes import initJokes
+import model.jeopardy
 from model.users import initUsers
 from model.games import initGames
 
 
 # setup APIs
-from api.covid import covid_api # Blueprint import api definition
+from api.covid import covid_api # Blueprint impo
+
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.game import game_api
