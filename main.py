@@ -42,10 +42,12 @@ def index():
 def stub():
     return render_template("stub.html")
 
+
+
 @app.route('/games')
 def games():
    # return render_template("games.html")
-    url = "http://127.0.0.1:8034/api/games/"
+    url = "https://cvcepgames.duckdns.org/api/games/"
 
     response = requests.request("GET", url)
 
@@ -64,4 +66,4 @@ if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    app.run(debug=True, host="0.0.0.0", port="8034")
+    app.run(debug=True, host="0.0.0.0", port="8043")
