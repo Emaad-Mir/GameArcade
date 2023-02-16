@@ -1,6 +1,6 @@
 
 from flask import Flask,jsonify,request
-from __main__ import app, db
+from __init__ import app, db
 from flask import request
 
 questions = [
