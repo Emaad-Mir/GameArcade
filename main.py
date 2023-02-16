@@ -4,7 +4,9 @@ import threading
 from flask import render_template  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
-from __init__ import app  # Definitions initialization
+from __init__ import app, db  # Definitions initialization
+import model.jeopardy
+
 from model.jokes import initJokes
 from model.users import initUsers
 from model.games import initGames
@@ -14,10 +16,9 @@ from model.games import initGames
 from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
-from api.game import game_api
+from api.game import game_api # Blueprint import api definition
 
 import requests
-
 
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
@@ -53,13 +54,18 @@ def games():
 
     output = response.json()
     return render_template("games.html",games=output)
+@app.route('/jeopardy/')  # connects /stub/ URL to stub() function
+def jeopardy():
+    return render_template("jeopardy.html")
+
+@app.route('/jeopardy/')  # connects /stub/ URL to stub() function
+def jeopardy():
+    return render_template("jeopardy.html")
 
 @app.before_first_request
 def activate_job():
     initJokes()
     initUsers()
-    initGames()
-
 
 # this runs the application on the development server
 if __name__ == "__main__":
@@ -67,3 +73,5 @@ if __name__ == "__main__":
     from flask_cors import CORS
     cors = CORS(app)
     app.run(debug=True, host="0.0.0.0", port="8043")
+
+    
