@@ -1,6 +1,6 @@
 
 from flask import Flask,jsonify,request
-from __main__ import app
+from __main__ import app, db
 from flask import request
 
 questions = [
@@ -118,7 +118,7 @@ questions = [
     {
         'category': 'MLB',
         'question': 'How many home runs did Aaron Judge have when he broke the record',
-        'answer': '22',
+        'answer': '62',
         'points' : '400'
     },
     
@@ -149,7 +149,7 @@ questions = [
     {
         'category': 'Soccer',
         'question': 'Which club is known as the "Red Devils" ?',
-        'answer': 'Machester United',
+        'answer': 'Manchester United',
         'points' : '400'
     },
     
@@ -165,12 +165,17 @@ questions = [
 def get_questions():
     return jsonify(questions)
 
-@app.route("/check_answer", methods=["POST"])
+@app.route("/api/check_answer", methods=["POST"])
 def check_answer():
+    category = request.args.get('category')
+    points = request.args.get('points')
+    print(category,points)
+    print(request.get_json())
     answer = request.get_json()["answer"]
     for question in questions:
-        if answer == question["answer"]:
-            return jsonify({"result": "Correct"})
+        if category == question["category"] and points == question["points"]:
+            if answer == question["answer"]:
+                return jsonify({"result": "Correct"})
     return jsonify({"result": "Incorrect"})
 
 @app.route('/api/jeopardy')
@@ -180,9 +185,33 @@ def data():
     print(category,points)
     for question in questions:
         if category == question["category"] and points == question["points"]:
-            return question["question"]
-    return 'Not Found'
+            response = {
+                "question": question["question"]
+            }
+            return jsonify(response)
+    return '{ "Question": "Not found" }'
 
 
 if __name__ == '__main__':
     app.run()
+
+
+class Jeopardy(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.Text)
+    question = db.Column(db.Text)
+    answer = db.Column(db.Text)
+    points = db.Column(db.Integer)
+    def __repr__(self):
+        return f'Question: {self.question}'
+db.drop_all()
+db.create_all()
+
+
+def makedb():
+    for question in questions:
+        question = Jeopardy(category=question["category"],points=int(question["points"]),answer=question["answer"],question=question["question"])
+        db.session.add(question)
+    db.session.commit()
+makedb()
+#print(Jeopardy.query.all())
