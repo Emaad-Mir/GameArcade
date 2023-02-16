@@ -54,18 +54,17 @@ def games():
 
     output = response.json()
     return render_template("games.html",games=output)
-@app.route('/jeopardy/')  # connects /stub/ URL to stub() function
-def jeopardy():
-    return render_template("jeopardy.html")
 
 @app.route('/jeopardy/')  # connects /stub/ URL to stub() function
 def jeopardy():
     return render_template("jeopardy.html")
+
 
 @app.before_first_request
 def activate_job():
     initJokes()
     initUsers()
+    initGames()
 
 # this runs the application on the development server
 if __name__ == "__main__":
