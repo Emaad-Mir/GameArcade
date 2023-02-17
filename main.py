@@ -6,7 +6,6 @@ from flask import render_template  # import render_template from "public" flask 
 # import "packages" from "this" project
 from __init__ import app, db  # Definitions initialization
 import model.jeopardy
-
 from model.jokes import initJokes
 from model.users import initUsers
 from model.games import initGames
@@ -43,6 +42,10 @@ def index():
 def stub():
     return render_template("stub.html")
 
+@app.route('/login/')  # connects /stub/ URL to stub() function
+def login():
+    return render_template("login.html")
+
 
 
 @app.route('/games')
@@ -69,8 +72,8 @@ def activate_job():
 # this runs the application on the development server
 if __name__ == "__main__":
     # change name for testing
-    from flask_cors import CORS
-    cors = CORS(app)
+    #from flask_cors import CORS
+    #cors = CORS(app)
     app.run(debug=True, host="0.0.0.0", port="8043")
 
     
