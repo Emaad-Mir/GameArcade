@@ -1,42 +1,29 @@
-import sqlite3
-import hashlib
-import requests
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
-# Initialize the database connection
-conn = sqlite3.connect('logins.db')
-c = conn.cursor()
+app = Flask(__name__) 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'volumes:///sqlite.db' 
+bcrypt = Bcrypt(app)
+db = SQLAlchemy(app) 
 
-# Create a table to store the login information
-c.execute('CREATE TABLE IF NOT EXISTS logins (username TEXT, password TEXT)')
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
 
-# Define a function to check if a password has been pwned
-def check_password(password):
-    hash_prefix = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()[:5]
-    hash_suffix = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()[5:]
-    url = f'https://api.pwnedpasswords.com/range/%7Bhash_prefix%7D'
-    response = requests.get(url)
-    if response.status_code == 200:
-        hashes = response.text.splitlines()
-        for hash in hashes:
-            if hash.startswith(hash_suffix):
-                return True
-    return False
+db.drop_all()
+db.create_all()
 
-# Define a function to add a new login to the database
-def add_login(username, password):
-    # Check if the password is too common
-    if check_password(password):
-        print('This password has been pwned. Please choose a different one.')
-        return
-    # Add the login to the database
-    c.execute('INSERT INTO logins (username, password) VALUES (?, ?)', (username, password))
-    conn.commit()
-    print('Login added successfully.')
+users = [
+    {'username': 'user1', 'password': 'pass1'},
+    {'username': 'user2', 'password': 'pass2'},
+    {'username': 'user3', 'password': 'pass3'},
+]
 
-# Define a function to check if a login exists in the database
-def check_login(username, password):
-    c.execute('SELECT * FROM logins WHERE username = ? AND password = ?', (username, password))
-    return c.fetchone() is not None
+for user in users:
+    hashed_password = bcrypt.generate_password_hash(user['password']).decode('utf-8')
+    new_user = User(username=user['username'], password=hashed_password)
+    db.session.add(new_user)
 
-# Close the database connection
-conn.close()
+db.session.commit()
