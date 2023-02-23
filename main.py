@@ -6,7 +6,6 @@ from flask import render_template  # import render_template from "public" flask 
 # import "packages" from "this" project
 from __init__ import app, db  # Definitions initialization
 import model.jeopardy
-
 from model.jokes import initJokes
 from model.users import initUsers
 from model.games import initGames
@@ -42,6 +41,10 @@ def index():
 @app.route('/stub/')  # connects /stub/ URL to stub() function
 def stub():
     return render_template("stub.html")
+
+@app.route('/login/')  # connects /stub/ URL to stub() function
+def login():
+    return render_template("login.html")
 
 
 
