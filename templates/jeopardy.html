@@ -2,6 +2,12 @@
   <head>
     <script>
       let score = 0;
+      function create_score() {
+        let score_element = document.createElement("h1");
+        score_element.innerText = score;
+        document.getElementById("score").appendChild(score_element);
+      }
+      create_score();
       function displayQuestion(category, value, element) {
         let URL = `${location.origin}/api/jeopardy?category=${category}&points=${value}`;
         let check_URL = `${location.origin}/api/check_answer?category=${category}&points=${value}`;
@@ -39,7 +45,7 @@
   </head>
   <body>
     <h2>Jeopardy Categories</h2>
-    <h1 id="score"></h1>
+    <div id="score"></div>
     <table>
       <tr>
         <td>NBA</td>
