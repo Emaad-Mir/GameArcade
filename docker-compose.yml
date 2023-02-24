@@ -4,7 +4,7 @@ services:
                 image: flask_arcade_v1
                 build: .
                 ports:
-                        - "8034:8034"
+                        - "8039:8039"
                 volumes:
                         - ./volumes:/volumes
                         - ./instance:/instance
