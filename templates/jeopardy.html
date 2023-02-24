@@ -8,6 +8,11 @@
         fetch(URL).then(d => d.json()).then(problem => {
           let { question } = problem;
           let userResponse = prompt(question);
+          const letterNumber = /^[A-Za-z0-9\s]*$/;
+          if(!letterNumber.test(userResponse)) {
+              alert("only letters and numbers are allowed");
+              return; 
+          }
           fetch(check_URL,{
             method: 'POST',
             headers: {

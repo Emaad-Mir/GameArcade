@@ -192,6 +192,21 @@ def data():
     return '{ "Question": "Not found" }'
 
 
+
+@app.route("/api/delete_question", methods=["DELETE"])
+def delete():
+    category = request.args.get('category')
+    points = request.args.get('points')
+    print(category,points)
+    for index, question in enumerate(questions):
+        if category == question["category"] and points == question["points"]:
+            del questions[index]
+            response = {
+                "message": "Delete Successful"
+            }
+            return jsonify(response)
+    return '{ "message": "Failed To Find Question" }'
+
 if __name__ == '__main__':
     app.run()
 

@@ -1,5 +1,7 @@
-import requests
-from flask import Flask
+
+from flask import Flask,jsonify,request
+from __init__ import app, db
+from flask import request
 
 app = Flask(__name__)
 
@@ -17,7 +19,6 @@ def get_data():
 
 if __name__ == '__main__':
     app.run()
-print("dhruva is sexy")
 
 
 
