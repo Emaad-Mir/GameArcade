@@ -1,24 +1,15 @@
+import requests
+from flask import Flask
 
-from flask import Flask,jsonify,request
-from __init__ import app, db
-from flask import request
+common_passwords = ['password', '123456', 'qwerty', 'abc123', 'admin']
 
-app = Flask(__name__)
+@app.route('/api/passwords')
+def passwords():
+    return jsonify(common_passwords)
 
-url = "https://celebrity-bucks.p.rapidapi.com/birthdays/JSON"
-
-headers = {
-    "X-RapidAPI-Key": "79f73b3e46msh7c51f325f3d2e54p1dc56ajsnb2c8b1c23229",
-    "X-RapidAPI-Host": "celebrity-bucks.p.rapidapi.com"
-}
-
-@app.route('/api/check',methods=["GET"])
-def get_data():
-    response = requests.request("GET", url, headers=headers)
-    return response.text
-
-if __name__ == '__main__':
+if name == 'main':
     app.run()
+print("dhruva is sexy")
 
 
 
