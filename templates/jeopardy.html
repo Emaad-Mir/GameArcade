@@ -18,7 +18,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "answer": userResponse }),
+            body: JSON.stringify({ "answer": userResponse.trim() }),
         }).then(d => d.json()).then(response => {
             console.log(response)
             if(response.result === "Correct") {
@@ -39,7 +39,7 @@
   </head>
   <body>
     <h2>Jeopardy Categories</h2>
-    <h1 id="score">0</h1>
+    <h1 id="score"></h1>
     <table>
       <tr>
         <td>NBA</td>
