@@ -1,11 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from __init__ import db
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__) 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'volumes:///sqlite.db' 
 bcrypt = Bcrypt(app)
-db = SQLAlchemy(app) 
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

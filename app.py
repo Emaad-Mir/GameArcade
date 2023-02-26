@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
+from __init__ import db
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
+from flask_wt import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -9,11 +9,9 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__) 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db' 
 bcrypt = Bcrypt(app)
-db = SQLAlchemy(app) 
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 login_manager = LoginManager()
-login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
