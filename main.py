@@ -4,7 +4,7 @@ import threading
 from flask import render_template  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
-from __init__ import app, db  # Definitions initialization
+from __init__ import app  # Definitions initialization
 import model.jeopardy
 from model.jokes import initJokes
 from model.users import initUsers
@@ -68,7 +68,6 @@ def jeopardy():
 
 @app.before_first_request
 def activate_job():
-    db.init_app(app)
     initJokes()
     initUsers()
     initGames()
