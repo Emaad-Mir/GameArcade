@@ -121,7 +121,8 @@ class Game(db.Model):
 
 # Builds working data for testing
 def initGames():
-    """Create database and tables"""
+    with app.app_context():
+        """Create database and tables"""
     db.create_all()
     """Tester data for table"""
     g5 = Game(name="Hangman", desc="Guess the word in 7 tries!", date_made=date(2023, 1, 23),link="https://emaad-mir.github.io/GamesArcade/hangman")

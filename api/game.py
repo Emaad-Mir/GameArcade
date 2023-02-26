@@ -5,8 +5,6 @@ from datetime import datetime
 
 from model.games import Game
 
-from __init__ import app, db
-
 game_api = Blueprint('game_api', __name__,
                    url_prefix='/api/games')
 
