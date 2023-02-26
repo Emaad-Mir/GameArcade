@@ -9,6 +9,7 @@ import model.jeopardy
 from model.jokes import initJokes
 from model.users import initUsers
 from model.games import initGames
+from model.words import initWords
 from model.countries import initCountries
 
 
@@ -17,6 +18,7 @@ from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.game import game_api # Blueprint import api definition
+from api.word import word_api
 from api.country import country_api
 
 import requests
@@ -31,6 +33,8 @@ app.register_blueprint(user_api) # register api routes
 app.register_blueprint(game_api) # register api routes
 app.register_blueprint(app_projects) # register app pages
 app.register_blueprint(country_api)
+app.register_blueprint(word_api)
+
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -72,6 +76,7 @@ def activate_job():
     initUsers()
     initGames()
     initCountries()
+    initWords()
 
 # this runs the application on the development server
 if __name__ == "__main__":
