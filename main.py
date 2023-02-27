@@ -4,11 +4,13 @@ import threading
 from flask import render_template  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
-from __init__ import app, db  # Definitions initialization
+from __init__ import app  # Definitions initialization
 import model.jeopardy
 from model.jokes import initJokes
 from model.users import initUsers
 from model.games import initGames
+from model.words import initWords
+from model.countries import initCountries
 
 
 # setup APIs
@@ -16,6 +18,8 @@ from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.game import game_api # Blueprint import api definition
+from api.word import word_api
+from api.country import country_api
 
 import requests
 
@@ -28,6 +32,9 @@ app.register_blueprint(covid_api) # register api routes
 app.register_blueprint(user_api) # register api routes
 app.register_blueprint(game_api) # register api routes
 app.register_blueprint(app_projects) # register app pages
+app.register_blueprint(country_api)
+app.register_blueprint(word_api)
+
 
 @app.errorhandler(404)  # catch for URL not found
 def page_not_found(e):
@@ -65,17 +72,17 @@ def jeopardy():
 
 @app.before_first_request
 def activate_job():
-    db.init_app(app)
     initJokes()
     initUsers()
     initGames()
+    initCountries()
+    initWords()
 
 # this runs the application on the development server
 if __name__ == "__main__":
     # change name for testing
     from flask_cors import CORS
     cors = CORS(app)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///volumes/sqlite.db'
-    app.run(debug=True, host="0.0.0.0", port="8034")
+    app.run(debug=True, host="0.0.0.0", port="8039")
 
     
