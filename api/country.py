@@ -30,7 +30,7 @@ class CountryAPI:
             #dob = body.get('dob')
 
             ''' #1: Key code block, setup USER OBJECT '''
-            uo = Countries(name, cid)
+            uo = Countries(name)
             
             ''' Additional garbage error checking '''
             # set password if provided
@@ -59,8 +59,8 @@ class CountryAPI:
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
     
     class _Update(Resource):
-        def put(self, id):
-            countries = Countries.query.set()    # read/extract all users from database
+        def put(self):
+            countries = Countries.query.all()    # read/extract all users from database
             json_ready = [country.read() for country in countries]  # prepare output in json
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
     '''
