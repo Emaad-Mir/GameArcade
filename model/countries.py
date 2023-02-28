@@ -73,14 +73,15 @@ class Countries(db.Model):
     __tablename2__ = 'countries'  # table name is plural, class name is singular
 
     # Define the User schema with "vars" from object
-    id = db.Column(db.Integer, primary_key=True)
+    _cid = db.Column(db.Integer, primary_key=True)
     _name = db.Column(db.String(255), unique=False, nullable=False)
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
     posts = db.relationship("Post2", cascade='all, delete', backref='users', lazy=True)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, name):
-        self._name = name    # variables with self prefix become part of the object, 
+    def __init__(self, name, cid):
+        self._name = name 
+        self._cid = cid# variables with self prefix become part of the object, 
     # a name getter method, extracts name from object
     @property
     def name(self):
@@ -91,7 +92,15 @@ class Countries(db.Model):
     def name(self, name):
         self._name = name
     
-   
+    @property
+    def cid(self):
+        return self._cid
+    
+    # a setter function, allows name to be updated after initial object creation
+    @name.setter
+    def cid(self, cid):
+        self._cid = cid
+
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
     def __str__(self):
@@ -113,15 +122,17 @@ class Countries(db.Model):
     # returns dictionary
     def read(self):
         return {
+            "cid": self.cid,
             "name": self.name
         }
     #"posts": [post.read() for post in self.posts]
     # CRUD update: updates user name, password, phone
     # returns self
 
-    def update(self, name = ""):
+    def update(self, name = "", cid = -1):
         """only updates values with length"""
         self.name = name
+        self.cid = cid
         return self
 
     # CRUD delete: remove self
@@ -138,9 +149,9 @@ def initCountries():
     """Create database and tables"""
     db.create_all()
     """Tester data for table"""
-    u1 = Countries(name='test')
+    #u1 = Countries(name='test',cid = 0)
 
-    countries = [u1]
+    countries = []
 
     """Builds sample user/note(s) data"""
     for country in countries:
