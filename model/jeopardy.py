@@ -2,7 +2,7 @@
 from flask import Flask,jsonify,request
 from __init__ import app, db
 from flask import request
-
+# The purpose of this database is to be used as API and have all the questions along with points and answers
 questions = [
     {
         'category': 'UFC',
@@ -160,11 +160,11 @@ questions = [
         'points' : '500'
     },
 ]
-
+#This is what I will use to have all the questions using GET COMMAND
 @app.route("/questions", methods=["GET"])
 def get_questions():
     return jsonify(questions)
-
+#This is used to check the answer with the Post Method and set up the query for the questions
 @app.route("/api/check_answer", methods=["POST"])
 def check_answer():
     category = request.args.get('category')
@@ -178,6 +178,7 @@ def check_answer():
                 return jsonify({"result": "Correct"})
     return jsonify({"result": "Incorrect"})
 
+# This is used to give the questions for user to answer
 @app.route('/api/jeopardy')
 def data():
     category = request.args.get('category')
@@ -193,6 +194,7 @@ def data():
 
 
 
+# This is used to delete questions from the list of questions
 @app.route("/api/delete_question", methods=["DELETE"])
 def delete():
     category = request.args.get('category')
@@ -210,7 +212,7 @@ def delete():
 if __name__ == '__main__':
     app.run()
 
-
+# This is my class to create the database with all the questions, answers and points
 class Jeopardy(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.Text)
