@@ -165,6 +165,7 @@ questions = [
 def get_questions():
     return jsonify(questions)
 #This is used to check the answer with the Post Method and set up the query for the questions
+# This checks the answer if its correct or not, and gives the response to user to tell them they were wrong/right
 @app.route("/api/check_answer", methods=["POST"])
 def check_answer():
     category = request.args.get('category')
@@ -179,11 +180,13 @@ def check_answer():
     return jsonify({"result": "Incorrect"})
 
 # This is used to give the questions for user to answer
+# THe way I dealt with errors the API may have is by giving a message if the query cannot be found to give a question
 @app.route('/api/jeopardy')
 def data():
     category = request.args.get('category')
     points = request.args.get('points')
     print(category,points)
+    # Iterates through questions
     for question in questions:
         if category == question["category"] and points == question["points"]:
             response = {
@@ -221,10 +224,12 @@ class Jeopardy(db.Model):
     points = db.Column(db.Integer)
     def __repr__(self):
         return f'Question: {self.question}'
+
 db.drop_all()
 db.create_all()
 
-
+# The use of this function was to make the database and then fill it up with the columns that I want,
+#which is category,question,points,and answer
 def makedb():
     for question in questions:
         question = Jeopardy(category=question["category"],points=int(question["points"]),answer=question["answer"],question=question["question"])
