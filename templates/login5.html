@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form>
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required><br><br>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" required><br><br>
+<button type="button" onclick="login()">Login</button>
+</form>
+<p id="message"></p>
+ 
+
+
+<script>
+  
+function login() {
+  // Get username and password input values
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
+  // Send POST request to login API endpoint with username and password
+  //let check_user_url = `${location.origin}/api/check_lpassword?lusername=vyaan&lpassword=vyaan123`;
+  let check_user_url = `${location.origin}/api/check_lpassword?lusername=${username}&lpassword=${password}`;
+  fetch(check_user_url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  
+</script>
+</body>
+</html>
